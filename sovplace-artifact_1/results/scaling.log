@@ -1,0 +1,30 @@
+== Figure 4: feasibility test vs exhaustive enumeration ==
+test   n=100            0.12 ms  feasible=False
+test   n=1000           0.57 ms  feasible=False
+test   n=10000          3.90 ms  feasible=False
+test   n=100000        67.13 ms  feasible=False
+enum   n=6              0.04 ms (worst infeasible instance; down-set pruning on)
+enum   n=7              0.08 ms (worst infeasible instance; down-set pruning on)
+enum   n=8              0.41 ms (worst infeasible instance; down-set pruning on)
+enum   n=9              0.04 ms (worst infeasible instance; down-set pruning on)
+enum   n=10             0.04 ms (worst infeasible instance; down-set pruning on)
+test and enumeration agree on 20/20 instances
+
+== Table V: search against the ILP ==
+kind  n      inst  search(s)  ILP(s)   ILP status   dW(%)    dB
+base  8      10      0.0002     0.01  optimal       +0.000  +0
+base  12     10      0.0004     0.01  optimal       +0.000  +0
+base  16     10      0.0005     0.02  optimal      +19.170  +0
+base  20     10      0.0007     0.02  optimal       +0.216  +0
+base  50     3       0.0024     0.07  optimal       +0.000  +0
+base  100    3       0.0060     0.23  optimal       +0.069  +0
+base  200    3       0.0156     0.60  optimal       +0.018  -1
+base  400    3       0.0404     4.53  optimal       +0.679  +0
+base  1000   1       0.1619    10.44  optimal       +0.366  +0
+hard  1000   1       0.1670   120.19  time limit    +0.159  +0
+
+== Search scalability ==
+base  n=1000        0.16 s
+base  n=10000      13.12 s
+hard  n=1000        0.20 s
+hard  n=10000      14.98 s

@@ -1,0 +1,318 @@
+{
+ "PV": {
+  "C": 18,
+  "P": 4,
+  "F": 4,
+  "K": [
+   2,
+   1,
+   1
+  ],
+  "UK": 14,
+  "feasible": true,
+  "test_ms": 0.06362999999964813,
+  "admissible": 72368,
+  "prefixes": 261142,
+  "enum_s": 1.717233388000011,
+  "placements": {
+   "Algorithm 1": {
+    "W": 0.933,
+    "met": 4,
+    "functions": 4,
+    "violations": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "failstop": 4,
+    "pairs": 5,
+    "stopping_links": 4,
+    "nodes": 7
+   },
+   "ILP (optimal)": {
+    "W": 0.933,
+    "met": 4,
+    "functions": 4,
+    "violations": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "failstop": 4,
+    "pairs": 5,
+    "stopping_links": 4,
+    "nodes": 6
+   },
+   "Practice": {
+    "W": 0.933,
+    "met": 4,
+    "functions": 4,
+    "violations": [
+     0,
+     0,
+     1,
+     0
+    ],
+    "failstop": 5,
+    "pairs": 5,
+    "stopping_links": 5,
+    "nodes": 6
+   },
+   "Cloud-first": {
+    "W": 16.689999999999998,
+    "met": 3,
+    "functions": 4,
+    "violations": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "failstop": 6,
+    "pairs": 7,
+    "stopping_links": 5,
+    "nodes": 6
+   },
+   "Tech-only": {
+    "W": 0.933,
+    "met": 4,
+    "functions": 4,
+    "violations": [
+     0,
+     1,
+     1,
+     0
+    ],
+    "failstop": 5,
+    "pairs": 5,
+    "stopping_links": 5,
+    "nodes": 9
+   }
+  }
+ },
+ "FLOOD": {
+  "C": 28,
+  "P": 6,
+  "F": 6,
+  "K": [
+   4,
+   3,
+   4
+  ],
+  "UK": 17,
+  "feasible": true,
+  "test_ms": 0.057073000022001,
+  "admissible": 5772,
+  "prefixes": 21500,
+  "enum_s": 0.204381785999999,
+  "placements": {
+   "Algorithm 1": {
+    "W": 27.5204,
+    "met": 6,
+    "functions": 6,
+    "violations": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "failstop": 9,
+    "pairs": 13,
+    "stopping_links": 8,
+    "nodes": 11
+   },
+   "ILP (optimal)": {
+    "W": 27.5204,
+    "met": 6,
+    "functions": 6,
+    "violations": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "failstop": 8,
+    "pairs": 12,
+    "stopping_links": 6,
+    "nodes": 9
+   },
+   "Practice": {
+    "W": 28.685200000000002,
+    "met": 6,
+    "functions": 6,
+    "violations": [
+     1,
+     2,
+     4,
+     1
+    ],
+    "failstop": 17,
+    "pairs": 17,
+    "stopping_links": 11,
+    "nodes": 11
+   },
+   "Cloud-first": {
+    "W": 76.1872,
+    "met": 6,
+    "functions": 6,
+    "violations": [
+     1,
+     1,
+     0,
+     0
+    ],
+    "failstop": 12,
+    "pairs": 16,
+    "stopping_links": 8,
+    "nodes": 11
+   },
+   "Tech-only": {
+    "W": 27.5204,
+    "met": 6,
+    "functions": 6,
+    "violations": [
+     0,
+     2,
+     4,
+     0
+    ],
+    "failstop": 13,
+    "pairs": 13,
+    "stopping_links": 11,
+    "nodes": 16
+   }
+  }
+ },
+ "ED-mono": {
+  "C": 33,
+  "P": 7,
+  "F": 6,
+  "K": [
+   4,
+   7,
+   8
+  ],
+  "UK": 14,
+  "feasible": false,
+  "test_ms": 0.3612369999927978,
+  "admissible": 0,
+  "certificate": {
+   "type": "pairwise",
+   "reason": "participants",
+   "pair": [
+    "CON_H1",
+    "PRED"
+   ],
+   "adm": [
+    [
+     "H1"
+    ],
+    [
+     "RHA"
+    ]
+   ],
+   "path": [
+    [
+     "CON_H1",
+     "PRED",
+     "contract"
+    ]
+   ]
+  }
+ },
+ "ED-fed": {
+  "C": 36,
+  "P": 7,
+  "F": 7,
+  "K": [
+   4,
+   7,
+   8
+  ],
+  "UK": 17,
+  "feasible": true,
+  "test_ms": 0.0490570000124535,
+  "admissible": 3750,
+  "prefixes": 14373,
+  "enum_s": 0.12366387800000211,
+  "placements": {
+   "Algorithm 1": {
+    "W": 5.065600000000001,
+    "met": 7,
+    "functions": 7,
+    "violations": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "failstop": 8,
+    "pairs": 14,
+    "stopping_links": 5,
+    "nodes": 9
+   },
+   "ILP (optimal)": {
+    "W": 5.065600000000001,
+    "met": 7,
+    "functions": 7,
+    "violations": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "failstop": 8,
+    "pairs": 14,
+    "stopping_links": 5,
+    "nodes": 9
+   },
+   "Practice": {
+    "W": 5.267200000000002,
+    "met": 7,
+    "functions": 7,
+    "violations": [
+     0,
+     6,
+     8,
+     0
+    ],
+    "failstop": 26,
+    "pairs": 26,
+    "stopping_links": 12,
+    "nodes": 11
+   },
+   "Cloud-first": {
+    "W": 10.292499999999999,
+    "met": 7,
+    "functions": 7,
+    "violations": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "failstop": 16,
+    "pairs": 22,
+    "stopping_links": 9,
+    "nodes": 11
+   },
+   "Tech-only": {
+    "W": 5.065600000000001,
+    "met": 7,
+    "functions": 7,
+    "violations": [
+     0,
+     1,
+     8,
+     0
+    ],
+    "failstop": 14,
+    "pairs": 14,
+    "stopping_links": 8,
+    "nodes": 18
+   }
+  }
+ }
+}
