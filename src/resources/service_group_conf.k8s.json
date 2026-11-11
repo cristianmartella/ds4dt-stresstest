@@ -1,0 +1,106 @@
+{
+    "services": [
+        {
+            "apikey": "APIKEY_AQ",
+            "cbroker": "CBROKER_URL",
+            "entity_type": "AirQualityObserved",
+            "resource": "/iot/d",
+            "attributes": [
+                {
+                    "object_id": "atmosphericPressure",
+                    "name": "pressure",
+                    "type": "Property"
+                },
+                {
+                    "object_id": "relativeHumidity",
+                    "name": "relativeHumidity",
+                    "type": "Property"
+                },
+                {
+                    "object_id": "temperature",
+                    "name": "temperature",
+                    "type": "Property"
+                }
+            ]
+        },
+        {
+            "apikey": "APIKEY_ENERGY",
+            "cbroker": "CBROKER_URL",
+            "entity_type": "DeviceMeasurement",
+            "resource": "/iot/d",
+            "attributes": [
+                {
+                    "object_id": "panel_current",
+                    "name": "numValue",
+                    "type": "Property"
+                },
+                {
+                    "object_id": "panel_bus_voltage",
+                    "name": "numValue",
+                    "type": "Property"
+                },
+                {
+                    "object_id": "battery_current",
+                    "name": "numValue",
+                    "type": "Property"
+                },
+                {
+                    "object_id": "battery_bus_voltage",
+                    "name": "numValue",
+                    "type": "Property"
+                },
+                {
+                    "object_id": "system_current",
+                    "name": "numValue",
+                    "type": "Property"
+                },
+                {
+                    "object_id": "system_bus_voltage",
+                    "name": "numValue",
+                    "type": "Property"
+                }
+            ]
+        },
+        {
+            "apikey": "APIKEY_DEVICE",
+            "cbroker": "CBROKER_URL",
+            "entity_type": "Device",
+            "resource": "/iot/d",
+            "attributes": [
+                {
+                    "object_id": "status",
+                    "name": "deviceState",
+                    "type": "Property"
+                }
+            ]
+        },
+        {
+            "apikey": "APIKEY_POSE",
+            "cbroker": "CBROKER_URL",
+            "entity_type": "StateMessage",
+            "resource": "/iot/d",
+            "attributes": [
+                {
+                    "object_id": "orientation",
+                    "name": "pose",
+                    "type": "Property",
+                    "expression": "{orientation3D: orientation}"
+                }
+            ]
+        },
+        {
+            "apikey": "APIKEY_CMD",
+            "cbroker": "CBROKER_URL",
+            "entity_type": "CommandMessage",
+            "resource": "/iot/d",
+            "attributes": [
+                {
+                    "object_id": "target",
+                    "name": "waypoints",
+                    "type": "Property",
+                    "expression": "[{orientation3D: target}]"
+                }
+            ]
+        }
+    ]
+}

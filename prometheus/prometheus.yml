@@ -1,0 +1,38 @@
+global:
+  scrape_interval: 5s
+  evaluation_interval: 5s
+
+alerting:
+
+rule_files:
+
+scrape_configs:
+  - job_name: otlp_grpc
+    static_configs:
+      - targets: [profiler:4317]
+        labels:
+          cluster: test
+          from: otlp_grpc
+
+  - job_name: otlp_http
+    static_configs:
+      - targets: [profiler:4318]
+        labels:
+          cluster: test
+          from: otlp_http
+
+  - job_name: profiler
+    static_configs:
+      - targets: [profiler:8000]
+
+  - job_name: 'exporter'
+    metrics_path: /metrics
+    static_configs:
+      - targets: [profiler:8085]
+        labels:
+          # label the cluster name of where the metrics data from
+          cluster: test
+          # fix value, don't modify
+          from: exporter
+
+  

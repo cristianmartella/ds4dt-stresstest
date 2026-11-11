@@ -1,0 +1,222 @@
+@DATA_SERVICE_HOST = scorpio.127.0.0.1.nip.io:8080
+@DATA_SERVICE_ALT_HOST = scorpio-alt.127.0.0.1.nip.io:8080
+@IOTA_HOST_N = iota-n.127.0.0.1.nip.io:8080
+@IOTA_HOST_S = iota.127.0.0.1.nip.io:8080
+@PROFILER_HOST = spvs-profiler.127.0.0.1.nip.io:8000
+
+@DEVICE_ID = SPVS01
+@DEVICE_ID_AQ = {{DEVICE_ID}}_AQ
+@DEVICE_ID_ENERGY = {{DEVICE_ID}}_ENERGY
+@DEVICE_ID_DEVICE = {{DEVICE_ID}}_DEVICE
+@DEVICE_ID_POSE = {{DEVICE_ID}}_POSE
+@DEVICE_ID_CMD = {{DEVICE_ID}}_CMD
+
+@APIKEY_AQ = A01230BJKL23Y9090DSFL123HJK09H324HV8733
+@APIKEY_ENERGY = B01230BJKL23Y9090DSFL123HJK09H324HV8733
+@APIKEY_DEVICE = C01230BJKL23Y9090DSFL123HJK09H324HV8733
+@APIKEY_POSE = D01230BJKL23Y9090DSFL123HJK09H324HV8733
+@APIKEY_CMD = E01230BJKL23Y9090DSFL123HJK09H324HV8733
+
+@SPVS_MANAGER_TOKEN = 
+@USER_ACCESS_TOKEN = eyJhbGciOiJSUzI1NiIsImtpZCI6ImdHT1NnVmZTX2JEMzJWSmtFSEl2eG9mZnZzdTVXY2dlV0poNjN1dHBRNlkiLCJ0eXAiOiJKV1QifQ.eyJhdWQiOlsiZGF0YS1zZXJ2aWNlIl0sImNsaWVudF9pZCI6ImRpZDprZXk6ekRuYWV5cEY4RDFXZXAxOTJUcWlFeWlya0JwaXJMb0g3cTFhRnhpWmNDdERvSnZBTiIsImV4cCI6MTc4MDQ5MjkzMSwiaXNzIjoiZGlkOmtleTp6RG5hZXlwRjhEMVdlcDE5MlRxaUV5aXJrQnBpckxvSDdxMWFGeGlaY0N0RG9KdkFOIiwia2lkIjoiZ0dPU2dWZlNfYkQzMlZKa0VISXZ4b2ZmdnN1NVdjZ2VXSmg2M3V0cFE2WSIsInN1YiI6IiIsInZlcmlmaWFibGVDcmVkZW50aWFsIjp7IkBjb250ZXh0IjpbImh0dHBzOi8vd3d3LnczLm9yZy8yMDE4L2NyZWRlbnRpYWxzL3YxIiwiaHR0cHM6Ly93d3cudzMub3JnL25zL2NyZWRlbnRpYWxzL3YxIl0sImNyZWRlbnRpYWxTdWJqZWN0Ijp7ImVtYWlsIjoic3B2c0BzcHZzLW1hbmFnZXIub3JnIiwiZmlyc3ROYW1lIjoiU1BWUyIsImxhc3ROYW1lIjoiU1BWU01hbmFnZXIifSwiaWQiOiJ1cm46dXVpZDphYTg3ODJjMS03ZDc3LTQ3MzItYmZhMC0yYjZhYTc4NWM3NjIiLCJpc3N1YW5jZURhdGUiOiIyMDI2LTA1LTMwVDE1OjQwOjUzWiIsImlzc3VlciI6ImRpZDprZXk6ekRuYWVpc25jb0c4RURpbzFZaFNhYkxXSjRSWHVXUFZVZlY3M1ZkWDg4a2NVODZzWSIsInR5cGUiOlsiVXNlckNyZWRlbnRpYWwiXX19.S5HuthdhVi5mO7u_pD1ne9fVUQqbZkfujvzBbjmYMyurS2BuL1kZEltRmb6kFbRlEUTIVombHyX7uFvbQAR7dAVFFoPpqMmVT3fp_r7KZ_sV9CoHliwgkbs3lbO4HWS8chDIU6B0_fmWlvrqu0nrFzB0vXlEI8wl5Pi6PHSAQPZEwlj72UO4VsC0PpIudPH0fGEw73ej4z5PhYfB18FFISZuYYuz306p-fi6WKmWbQzesvu6kRBDkfrLmHbJJL0vr2d5JoaV9O_68NH5XP-xpxka0z1Tj2FHWbv59WGxL62GNI_O2Do3CJwgAoCrhu8lmXzKr92j4SYGUXAgxDz2RQ
+### POST /iot/json - Air Quality Observed
+#POST http://{{IOTA_HOST_S}}/iot/d?k=TEF&i={{DEVICE_ID_AQ}}
+POST http://{{IOTA_HOST_S}}/iot/d?k={{APIKEY_AQ}}&i={{DEVICE_ID_AQ}}
+Authorization: Bearer {{USER_ACCESS_TOKEN}}
+Content-Type: application/json
+fiware-service: openiot
+fiware-servicepath: /
+
+{
+    "type": "AirQualityObserved",
+    "temperature": "23.6",
+    "relativeHumidity": "51.4",
+    "atmosphericPressure": "1013.25"
+}
+
+
+### GET /ngsi-ld/v1/entity - Air Quality Observed
+GET http://{{DATA_SERVICE_HOST}}/ngsi-ld/v1/entities/urn:ngsi-ld:AirQualityObserved:SPVS01_AQ
+Accept: application/ld+json
+NGSILD-Tenant: openiot
+NGSILD-Path: /
+Authorization: Bearer {{USER_ACCESS_TOKEN}}
+
+
+### GET /ngsi-ld/v1/entity - Air Quality Observed
+GET http://{{DATA_SERVICE_HOST}}/ngsi-ld/v1/entities?type=AirQualityObserved
+Accept: application/ld+json
+NGSILD-Tenant: openiot
+NGSILD-Path: /
+Authorization: Bearer {{SPVS_MANAGER_TOKEN}}
+
+
+
+
+
+
+
+
+
+
+
+### TEST DATA SERVICE
+
+GET http://{{DATA_SERVICE_HOST}}/ngsi-ld/v1/entities?type=Device
+Accept: application/ld+json
+Link: <https://raw.githubusercontent.com/smart-data-models/dataModel.Device/refs/heads/master/context.jsonld>; rel="http://www.w3.org/ns/json-ld#context"; type="application/ld+json",
+NGSILD-Tenant: openiot
+NGSILD-Path: /
+
+
+
+###
+
+
+POST http://{{DATA_SERVICE_HOST}}/ngsi-ld/v1/entities
+Accept: */*
+Content-Type: application/json
+Link: <https://raw.githubusercontent.com/smart-data-models/dataModel.Device/refs/heads/master/context.jsonld>; rel="http://www.w3.org/ns/json-ld#context"; type="application/ld+json",
+NGSILD-Tenant: openiot
+NGSILD-Path: /
+Authorization: Bearer {{USER_ACCESS_TOKEN}}
+
+{
+    "id": "urn:ngsi-ld:K8SCluster:fancy-marketplace",
+    "type": "K8SCluster",
+    "name": {
+        "type": "Property",
+        "value": "Fancy Marketplace Cluster"
+    },
+    "numNodes": {
+        "type": "Property",
+        "value": "3"
+    },
+    "k8sVersion": {
+        "type": "Property",
+        "value": "1.26.0"
+    }
+}
+
+###
+
+
+POST http://scorpio-alt.127.0.0.1.nip.io:8080/ngsi-ld/v1/entities
+Accept: */*
+Content-Type: application/json
+Link: <https://raw.githubusercontent.com/smart-data-models/dataModel.Device/refs/heads/master/context.jsonld>; rel="http://www.w3.org/ns/json-ld#context"; type="application/ld+json",
+NGSILD-Tenant: openiot
+NGSILD-Path: /
+
+{
+    "id": "urn:ngsi-ld:K8SCluster:fancy-marketplace",
+    "type": "K8SCluster",
+    "name": {
+        "type": "Property",
+        "value": "Fancy Marketplace Cluster"
+    },
+    "numNodes": {
+        "type": "Property",
+        "value": "3"
+    },
+    "k8sVersion": {
+        "type": "Property",
+        "value": "1.26.0"
+    }
+}
+
+###
+GET http://{{DATA_SERVICE_HOST}}/ngsi-ld/v1/entities/urn:ngsi-ld:K8SCluster:fancy-marketplace
+Accept: application/ld+json
+NGSILD-Tenant: openiot
+NGSILD-Path: /
+
+
+###
+DELETE http://{{DATA_SERVICE_HOST}}/ngsi-ld/v1/entities/urn:ngsi-ld:K8SCluster:fancy-marketplace
+Accept: */*
+Content-Type: application/json
+NGSILD-Tenant: openiot
+NGSILD-Path: /
+
+
+###
+GET http://{{DATA_SERVICE_ALT_HOST}}/q/health
+Accept: application/json
+# Link: <https://raw.githubusercontent.com/smart-data-models/dataModel.Device/refs/heads/master/context.jsonld>; rel="http://www.w3.org/ns/json-ld#context"; type="application/ld+json",
+# NGSILD-Tenant: openiot
+# NGSILD-Path: /
+
+
+###
+GET http://{{PROFILER_HOST}}
+
+###
+GET http://{{PROFILER_HOST}}/task
+
+###
+GET http://{{PROFILER_HOST}}/metrics
+
+
+###
+POST http://{{PROFILER_HOST}}/refresh-token
+
+
+###
+POST http://{{PROFILER_HOST}}/start
+Content-Type: application/json
+
+{
+    "delta_t": 5,
+    "burst_size": 100,
+    "iterations": 10,
+    "mode": "fixed"
+}
+
+###
+GET http://192.168.101.111:8000
+
+
+###
+GET http://{{DATA_SERVICE_HOST}}/.well-known/openid-configuration
+
+###
+
+GET http://provider-verifier.127.0.0.1.nip.io:8080/.well-known/jwks
+
+###
+
+
+POST https://scorpio.127.0.0.1.nip.io:8443/ngsi-ld/v1/entities
+Authorization: Bearer {{USER_ACCESS_TOKEN}}
+Accept: */*
+Content-Type: application/json
+Link: <https://raw.githubusercontent.com/smart-data-models/dataModel.Device/refs/heads/master/context.jsonld>; rel="http://www.w3.org/ns/json-ld#context"; type="application/ld+json",
+NGSILD-Tenant: openiot
+NGSILD-Path: /
+
+{
+    "id": "urn:ngsi-ld:K8SCluster:fancy-marketplace2",
+    "type": "K8SCluster",
+    "name": {
+        "type": "Property",
+        "value": "Fancy Marketplace Cluster"
+    },
+    "numNodes": {
+        "type": "Property",
+        "value": "3"
+    },
+    "k8sVersion": {
+        "type": "Property",
+        "value": "1.26.0"
+    }
+}
+
+###
+
+GET http://scorpio.127.0.0.1.nip.io:8080/ngsi-ld/v1/entities/urn:ngsi-ld:K8SCluster:fancy-marketplace2
+Authorization: Bearer {{USER_ACCESS_TOKEN}}
+Accept: */*
+Content-Type: application/json
+NGSILD-Tenant: openiot
+NGSILD-Path: /

@@ -1,0 +1,352 @@
+@DATA_SERVICE_HOST = scorpio.127.0.0.1.nip.io:8080
+@IOTA_HOST_N = iota-n.127.0.0.1.nip.io:8080
+
+@DEVICE_ID = SPVS01
+@DEVICE_ID_AQ = {{DEVICE_ID}}_AQ
+@DEVICE_ID_ENERGY = {{DEVICE_ID}}_ENERGY
+@DEVICE_ID_DEVICE = {{DEVICE_ID}}_DEVICE
+@DEVICE_ID_POSE = {{DEVICE_ID}}_POSE
+@DEVICE_ID_CMD = {{DEVICE_ID}}_CMD
+
+@APIKEY_AQ = A01230BJKL23Y9090DSFL123HJK09H324HV8733
+@APIKEY_ENERGY = B01230BJKL23Y9090DSFL123HJK09H324HV8733
+@APIKEY_DEVICE = C01230BJKL23Y9090DSFL123HJK09H324HV8733
+@APIKEY_POSE = D01230BJKL23Y9090DSFL123HJK09H324HV8733
+@APIKEY_CMD = E01230BJKL23Y9090DSFL123HJK09H324HV8733
+
+
+### INIT IOTA SERVICE
+
+### Get health status
+GET http://{{IOTA_HOST_N}}/iot/about
+Accept: application/json
+
+
+### Configure services
+POST http://{{IOTA_HOST_N}}/iot/services
+Content-Type: application/json
+fiware-service: openiot
+fiware-servicepath: /
+
+{
+    "services": [
+        {
+            "apikey": "{{APIKEY_AQ}}",
+            "cbroker": "{{DATA_SERVICE_HOST}}",
+            "entity_type": "AirQualityObserved",
+            "resource": "/iot/d",
+            "attributes": [
+                {
+                    "object_id": "atmosphericPressure",
+                    "name": "pressure",
+                    "type": "Property"
+                },
+                {
+                    "object_id": "relativeHumidity",
+                    "name": "relativeHumidity",
+                    "type": "Property"
+                },
+                {
+                    "object_id": "temperature",
+                    "name": "temperature",
+                    "type": "Property"
+                }
+            ]
+        },
+        {
+            "apikey": "{{APIKEY_ENERGY}}",
+            "cbroker": "{{DATA_SERVICE_HOST}}",
+            "entity_type": "DeviceMeasurement",
+            "resource": "/iot/d",
+            "attributes": [
+                {
+                    "object_id": "panel_current",
+                    "name": "numValue",
+                    "type": "Property"
+                },
+                {
+                    "object_id": "panel_bus_voltage",
+                    "name": "numValue",
+                    "type": "Property"
+                },
+                {
+                    "object_id": "battery_current",
+                    "name": "numValue",
+                    "type": "Property"
+                },
+                {
+                    "object_id": "battery_bus_voltage",
+                    "name": "numValue",
+                    "type": "Property"
+                },
+                {
+                    "object_id": "system_current",
+                    "name": "numValue",
+                    "type": "Property"
+                },
+                {
+                    "object_id": "system_bus_voltage",
+                    "name": "numValue",
+                    "type": "Property"
+                }
+            ]
+        },
+        {
+            "apikey": "{{APIKEY_DEVICE}}",
+            "cbroker": "{{DATA_SERVICE_HOST}}",
+            "entity_type": "Device",
+            "resource": "/iot/d",
+            "attributes": [
+                {
+                    "object_id": "status",
+                    "name": "deviceState",
+                    "type": "Property"
+                }
+            ]
+        },
+        {
+            "apikey": "{{APIKEY_POSE}}",
+            "cbroker": "{{DATA_SERVICE_HOST}}",
+            "entity_type": "StateMessage",
+            "resource": "/iot/d",
+            "attributes": [
+                {
+                    "object_id": "orientation",
+                    "name": "pose",
+                    "type": "Property",
+                    "expression": "{orientation3D: orientation}"
+                }
+            ]
+        },
+        {
+            "apikey": "{{APIKEY_CMD}}",
+            "cbroker": "{{DATA_SERVICE_HOST}}",
+            "entity_type": "CommandMessage",
+            "resource": "/iot/d",
+            "attributes": [
+                {
+                    "object_id": "target",
+                    "name": "waypoints",
+                    "type": "Property",
+                    "expression": "[{orientation3D: target}]"
+                }
+            ]
+        }
+    ]
+}
+
+
+###
+GET http://{{IOTA_HOST_N}}/iot/services
+Accept: application/ld+json
+fiware-service: openiot
+fiware-servicepath: /
+
+
+###
+DELETE http://{{IOTA_HOST_N}}/iot/services/*
+Accept: application/ld+json
+fiware-service: openiot
+fiware-servicepath: /
+
+
+### Configure devices
+POST http://{{IOTA_HOST_N}}/iot/devices
+Content-Type: application/json
+fiware-service: openiot
+fiware-servicepath: /
+
+{
+    "devices": [
+        {
+            "device_id": "{{DEVICE_ID_AQ}}",
+            "apikey": "{{APIKEY_AQ}}",
+            "resource": "/iot/d",
+            "timezone": "Europe/Berlin",
+            "entity_type": "AirQualityObserved",
+            "attributes": [
+                {
+                    "object_id": "atmosphericPressure",
+                    "name": "pressure",
+                    "type": "Property"
+                },
+                {
+                    "object_id": "relativeHumidity",
+                    "name": "relativeHumidity",
+                    "type": "Property"
+                },
+                {
+                    "object_id": "temperature",
+                    "name": "temperature",
+                    "type": "Property"
+                }
+            ],
+            "protocol": "PDI-IoTA-UltraLight",
+            "transport": "HTTP",
+            "commands": []
+        },
+        {
+            "device_id": "{{DEVICE_ID_ENERGY}}",
+            "apikey": "{{APIKEY_ENERGY}}",
+            "resource": "/iot/d",
+            "timezone": "Europe/Berlin",
+            "entity_type": "DeviceMeasurement",
+            "attributes": [
+                {
+                    "object_id": "panel_current",
+                    "name": "numValue",
+                    "type": "Property",
+                    "entity_name": "{{DEVICE_ID_ENERGY}}_panel_current"
+                },
+                {
+                    "object_id": "panel_bus_voltage",
+                    "name": "numValue",
+                    "type": "Property",
+                    "entity_name": "{{DEVICE_ID_ENERGY}}_panel_bus_voltage"
+                },
+                {
+                    "object_id": "battery_current",
+                    "name": "numValue",
+                    "type": "Property",
+                    "entity_name": "{{DEVICE_ID_ENERGY}}_battery_current"
+                },
+                {
+                    "object_id": "battery_bus_voltage",
+                    "name": "numValue",
+                    "type": "Property",
+                    "entity_name": "{{DEVICE_ID_ENERGY}}_battery_bus_voltage"
+                },
+                {
+                    "object_id": "system_current",
+                    "name": "numValue",
+                    "type": "Property",
+                    "entity_name": "{{DEVICE_ID_ENERGY}}_system_current"
+                },
+                {
+                    "object_id": "system_bus_voltage",
+                    "name": "numValue",
+                    "type": "Property",
+                    "entity_name": "{{DEVICE_ID_ENERGY}}_system_bus_voltage"
+                }
+            ],
+            "protocol": "PDI-IoTA-UltraLight",
+            "transport": "HTTP",
+            "commands": []
+        },
+        {
+            "device_id": "{{DEVICE_ID_DEVICE}}",
+            "apikey": "{{APIKEY_DEVICE}}",
+            "resource": "/iot/d",
+            "timezone": "Europe/Berlin",
+            "entity_type": "Device",
+            "attributes": [
+                {
+                    "object_id": "status",
+                    "name": "deviceState",
+                    "type": "Property"
+                }
+            ],
+            "protocol": "PDI-IoTA-UltraLight",
+            "transport": "HTTP",
+            "commands": []
+        },
+        {
+            "device_id": "{{DEVICE_ID_POSE}}",
+            "apikey": "{{APIKEY_POSE}}",
+            "resource": "/iot/d",
+            "timezone": "Europe/Berlin",
+            "entity_type": "StateMessage",
+            "attributes": [
+                {
+                    "object_id": "orientation",
+                    "name": "pose",
+                    "type": "Property",
+                    "expression": "{orientation3D: orientation}"
+                }
+            ],
+            "protocol": "PDI-IoTA-UltraLight",
+            "transport": "HTTP",
+            "commands": []
+        },
+        {
+            "device_id": "{{DEVICE_ID_CMD}}",
+            "apikey": "{{APIKEY_CMD}}",
+            "resource": "/iot/d",
+            "timezone": "Europe/Berlin",
+            "entity_type": "CommandMessage",
+            "attributes": [
+                {
+                    "object_id": "target",
+                    "name": "waypoints",
+                    "type": "Property",
+                    "expression": "[{orientation3D: target}]"
+                }
+            ],
+            "protocol": "PDI-IoTA-UltraLight",
+            "transport": "HTTP",
+            "commands": []
+        }
+    ]
+}
+
+
+###
+GET http://{{IOTA_HOST_N}}/iot/devices
+Accept: application/ld+json
+fiware-service: openiot
+fiware-servicepath: /
+
+###
+GET http://{{IOTA_HOST_N}}/iot/devices/SPVS01_AQ
+Accept: application/ld+json
+Link: <https://raw.githubusercontent.com/smart-data-models/dataModel.Device/refs/heads/master/context.jsonld>; rel="http://www.w3.org/ns/json-ld#context"; type="application/ld+json"
+fiware-service: openiot
+fiware-servicepath: /
+
+
+###
+DELETE http://{{IOTA_HOST_N}}/iot/devices/SPVS01_AQ
+Accept: application/ld+json
+fiware-service: openiot
+fiware-servicepath: /
+
+
+
+###
+
+POST http://{{IOTA_HOST_N}}/iot/devices
+Content-Type: application/json
+fiware-service: openiot
+fiware-servicepath: /
+
+{
+    "devices": [
+        {
+            "device_id": "{{DEVICE_ID_AQ}}",
+            "apikey": "{{APIKEY_AQ}}",
+            "resource": "/iot/d",
+            "timezone": "Europe/Berlin",
+            "entity_type": "AirQualityObserved",
+            "attributes": [
+                {
+                    "object_id": "atmosphericPressure",
+                    "name": "pressure",
+                    "type": "Property"
+                },
+                {
+                    "object_id": "relativeHumidity",
+                    "name": "relativeHumidity",
+                    "type": "Property"
+                },
+                {
+                    "object_id": "temperature",
+                    "name": "temperature",
+                    "type": "Property"
+                }
+            ],
+            "protocol": "PDI-IoTA-UltraLight",
+            "transport": "HTTP",
+            "commands": []
+        }
+    ]
+}

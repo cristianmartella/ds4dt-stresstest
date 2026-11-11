@@ -1,0 +1,493 @@
+# Copyright 2025 Cristian Martella
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+### File variables
+@PAP-HOST = pap-provider.127.0.0.1.nip.io:8080
+
+
+### 01. Get the policy list
+GET http://{{PAP-HOST}}/policy
+
+
+### 02. Delete a policy
+@02_POLICY-ID = qwnvxrboic
+
+DELETE http://{{PAP-HOST}}/policy/{{02_POLICY-ID}}
+
+
+######################################################################################
+#### P1: allow any participant to use the /ngsi-ld/v1/entities path and the iot/d path
+######################################################################################
+
+### Basic usage policy for /ngsi-ld/v1/entities path
+
+POST http://{{PAP-HOST}}/policy
+Content-Type: application/json
+
+{ 
+    "@context": {
+        "odrl": {
+            "@id": "http://www.w3.org/ns/odrl/2/",
+            "@prefix": true
+        },
+        "dome-op": {
+            "@id": "https://github.com/DOME-Marketplace/dome-odrl-profile#",
+            "@prefix": true
+        },
+        "xsd": {
+            "@id": "http://www.w3.org/2001/XMLSchema#",
+            "@prefix": true
+        }
+    },
+    "@id": "https://mp-operation.org/policy/common/type/ds-use",
+    "@type": "odrl:Policy",
+    "odrl:permission": {
+        "odrl:assigner": {
+            "@id": "https://www.mp-operation.org/"
+        },
+        "odrl:target": {
+            "@type": "odrl:AssetCollection",
+            "odrl:source": "urn:asset",
+            "odrl:refinement": [
+                {
+                    "@type": "odrl:Constraint",
+                    "odrl:leftOperand": "http:path",
+                    "odrl:operator": {
+                        "@id": "http:isInPath"
+                    },
+                    "odrl:rightOperand": {
+                        "@value": "/ngsi-ld/v1/entities",
+                        "@type": "xsd:string"
+                    }
+                }
+            ]
+        },
+        "odrl:assignee": {
+            "@id": "vc:any"
+        },
+        "odrl:action": {
+            "@id": "odrl:use"
+        }
+    }
+}
+
+### Basic usage policy for iot/d path
+
+POST http://{{PAP-HOST}}/policy
+Content-Type: application/json
+
+{ 
+    "@context": {
+        "odrl": {
+            "@id": "http://www.w3.org/ns/odrl/2/",
+            "@prefix": true
+        },
+        "dome-op": {
+            "@id": "https://github.com/DOME-Marketplace/dome-odrl-profile#",
+            "@prefix": true
+        },
+        "xsd": {
+            "@id": "http://www.w3.org/2001/XMLSchema#",
+            "@prefix": true
+        }
+    },
+    "@id": "https://mp-operation.org/policy/common/type/iota-use",
+    "@type": "odrl:Policy",
+    "odrl:permission": {
+        "odrl:assigner": {
+            "@id": "https://www.mp-operation.org/"
+        },
+        "odrl:target": {
+            "@type": "odrl:AssetCollection",
+            "odrl:source": "urn:asset",
+            "odrl:refinement": [
+                {
+                    "@type": "odrl:Constraint",
+                    "odrl:leftOperand": "http:path",
+                    "odrl:operator": {
+                        "@id": "http:isInPath"
+                    },
+                    "odrl:rightOperand": {
+                        "@value": "/iot/d",
+                        "@type": "xsd:string"
+                    }
+                }
+            ]
+        },
+        "odrl:assignee": {
+            "@id": "vc:any"
+        },
+        "odrl:action": {
+            "@id": "odrl:use"
+        }
+    }
+}
+
+
+######################################################################################
+#### P2: allow participant with VC UserCredential to use the /ngsi-ld/v1/entities path and the iot/d path for entity type AirQualityObserved
+######################################################################################
+
+### Usage policy for /ngsi-ld/v1/entities path 
+
+POST http://{{PAP-HOST}}/policy
+Content-Type: application/json
+
+{ 
+    "@context": {
+        "odrl": {
+            "@id": "http://www.w3.org/ns/odrl/2/",
+            "@prefix": true
+        },
+        "dome-op": {
+            "@id": "https://github.com/DOME-Marketplace/dome-odrl-profile#",
+            "@prefix": true
+        },
+        "xsd": {
+            "@id": "http://www.w3.org/2001/XMLSchema#",
+            "@prefix": true
+        }
+    },
+    "@id": "https://mp-operation.org/policy/common/type/ds-use",
+    "@type": "odrl:Policy",
+    "odrl:permission": {
+        "odrl:assigner": {
+            "@id": "https://www.mp-operation.org/"
+        },
+        "odrl:target": {
+            "@type": "odrl:AssetCollection",
+            "odrl:source": "urn:asset",
+            "odrl:refinement": [
+                {
+                    "@type": "odrl:Constraint",
+                    "odrl:leftOperand": "http:path",
+                    "odrl:operator": {
+                        "@id": "http:isInPath"
+                    },
+                    "odrl:rightOperand": {
+                        "@value": "/ngsi-ld/v1/entities",
+                        "@type": "xsd:string"
+                    }
+                },
+                {
+                    "@type": "odrl:Constraint",
+                    "odrl:leftOperand": "ngsi-ld:entityType",
+                    "odrl:operator": {
+                        "@id": "odrl:eq"
+                    },
+                    "odrl:rightOperand": "AirQualityObserved"
+                }
+            ]
+        },
+        "odrl:assignee": {
+            "@type": "odrl:PartyCollection",
+            "odrl:source": "urn:user",
+            "odrl:refinement": {
+                "@type": "odrl:Constraint",
+                "odrl:leftOperand": {
+                    "@id": "vc:type"
+                },
+                "odrl:operator": {
+                    "@id": "odrl:hasPart"
+                },
+                "odrl:rightOperand": {
+                    "@value": "UserCredential",
+                    "@type": "xsd:string"
+                }
+            }
+        },
+        "odrl:action": {
+            "@id": "odrl:use"
+        }
+    }
+}
+
+### Usage policy for iot/d path
+
+POST http://{{PAP-HOST}}/policy
+Content-Type: application/json
+
+{ 
+    "@context": {
+        "odrl": {
+            "@id": "http://www.w3.org/ns/odrl/2/",
+            "@prefix": true
+        },
+        "dome-op": {
+            "@id": "https://github.com/DOME-Marketplace/dome-odrl-profile#",
+            "@prefix": true
+        },
+        "xsd": {
+            "@id": "http://www.w3.org/2001/XMLSchema#",
+            "@prefix": true
+        }
+    },
+    "@id": "https://mp-operation.org/policy/common/type/iota-use",
+    "@type": "odrl:Policy",
+    "odrl:permission": {
+        "odrl:assigner": {
+            "@id": "https://www.mp-operation.org/"
+        },
+        "odrl:target": {
+            "@type": "odrl:AssetCollection",
+            "odrl:source": "urn:asset",
+            "odrl:refinement": [
+                {
+                    "@type": "odrl:Constraint",
+                    "odrl:leftOperand": "http:path",
+                    "odrl:operator": {
+                        "@id": "http:isInPath"
+                    },
+                    "odrl:rightOperand": {
+                        "@value": "/iot/d",
+                        "@type": "xsd:string"
+                    }
+                },
+                {
+                    "@type": "odrl:Constraint",
+                    "odrl:leftOperand": "ngsi-ld:entityType",
+                    "odrl:operator": {
+                        "@id": "odrl:eq"
+                    },
+                    "odrl:rightOperand": "AirQualityObserved"
+                }
+            ]
+        },
+        "odrl:assignee": {
+            "@type": "odrl:PartyCollection",
+            "odrl:source": "urn:user",
+            "odrl:refinement": {
+                "@type": "odrl:Constraint",
+                "odrl:leftOperand": {
+                    "@id": "vc:type"
+                },
+                "odrl:operator": {
+                    "@id": "odrl:hasPart"
+                },
+                "odrl:rightOperand": {
+                    "@value": "UserCredential",
+                    "@type": "xsd:string"
+                }
+            }
+        },
+        "odrl:action": {
+            "@id": "odrl:use"
+        }
+    }
+}
+
+
+######################################################################################
+#### P3: allow participant with VC UserCredential to use the /ngsi-ld/v1/entities with read action path and the iot/d path for entity type AirQualityObserved with use action, from 8:00 to 15:00 and before 2026-06-10
+######################################################################################
+
+### Usage policy for /ngsi-ld/v1/entities path 
+
+POST http://{{PAP-HOST}}/policy
+Content-Type: application/json
+
+{ 
+    "@context": {
+        "odrl": {
+            "@id": "http://www.w3.org/ns/odrl/2/",
+            "@prefix": true
+        },
+        "dome-op": {
+            "@id": "https://github.com/DOME-Marketplace/dome-odrl-profile#",
+            "@prefix": true
+        },
+        "xsd": {
+            "@id": "http://www.w3.org/2001/XMLSchema#",
+            "@prefix": true
+        }
+    },
+    "@id": "https://mp-operation.org/policy/common/type/ds-read",
+    "@type": "odrl:Policy",
+    "odrl:permission": {
+        "odrl:assigner": {
+            "@id": "https://www.mp-operation.org/"
+        },
+        "odrl:target": {
+            "@type": "odrl:AssetCollection",
+            "odrl:source": "urn:asset",
+            "odrl:refinement": [
+                {
+                    "@type": "odrl:Constraint",
+                    "odrl:leftOperand": "http:path",
+                    "odrl:operator": {
+                        "@id": "http:isInPath"
+                    },
+                    "odrl:rightOperand": {
+                        "@value": "/ngsi-ld/v1/entities",
+                        "@type": "xsd:string"
+                    }
+                },
+                {
+                    "@type": "odrl:Constraint",
+                    "odrl:leftOperand": "ngsi-ld:entityType",
+                    "odrl:operator": {
+                        "@id": "odrl:eq"
+                    },
+                    "odrl:rightOperand": "AirQualityObserved"
+                }
+            ]
+        },
+        "odrl:constraint": [
+            {
+                "odrl:leftOperand": "odrl:hourOfDay",
+                "odrl:operator": "odrl:gteq",
+                "odrl:rightOperand": {
+                    "@value": 8,
+                    "@type": "xsd:integer"
+                }
+            },
+            {
+                "odrl:leftOperand": "odrl:hourOfDay",
+                "odrl:operator": "odrl:lteq",
+                "odrl:rightOperand": {
+                    "@value": 20,
+                    "@type": "xsd:integer"
+                }
+            },
+            {
+                "odrl:leftOperand": "odrl:dateTime",
+                "odrl:operator": "odrl:lteq",
+                "odrl:rightOperand": {
+                    "@value": "2026-06-10",
+                    "@type": "xsd:date"
+                }
+            }
+        ],
+        "odrl:assignee": {
+            "@type": "odrl:PartyCollection",
+            "odrl:source": "urn:user",
+            "odrl:refinement": {
+                "@type": "odrl:Constraint",
+                "odrl:leftOperand": {
+                    "@id": "vc:type"
+                },
+                "odrl:operator": {
+                    "@id": "odrl:hasPart"
+                },
+                "odrl:rightOperand": {
+                    "@value": "UserCredential",
+                    "@type": "xsd:string"
+                }
+            }
+        },
+        "odrl:action": {
+            "@id": "odrl:read"
+        }
+    }
+}
+
+### Usage policy for iot/d path
+
+POST http://{{PAP-HOST}}/policy
+Content-Type: application/json
+
+{ 
+    "@context": {
+        "odrl": {
+            "@id": "http://www.w3.org/ns/odrl/2/",
+            "@prefix": true
+        },
+        "dome-op": {
+            "@id": "https://github.com/DOME-Marketplace/dome-odrl-profile#",
+            "@prefix": true
+        },
+        "xsd": {
+            "@id": "http://www.w3.org/2001/XMLSchema#",
+            "@prefix": true
+        }
+    },
+    "@id": "https://mp-operation.org/policy/common/type/iota-use",
+    "@type": "odrl:Policy",
+    "odrl:permission": {
+        "odrl:assigner": {
+            "@id": "https://www.mp-operation.org/"
+        },
+        "odrl:target": {
+            "@type": "odrl:AssetCollection",
+            "odrl:source": "urn:asset",
+            "odrl:refinement": [
+                {
+                    "@type": "odrl:Constraint",
+                    "odrl:leftOperand": "http:path",
+                    "odrl:operator": {
+                        "@id": "http:isInPath"
+                    },
+                    "odrl:rightOperand": {
+                        "@value": "/iot/d",
+                        "@type": "xsd:string"
+                    }
+                },
+                {
+                    "@type": "odrl:Constraint",
+                    "odrl:leftOperand": "ngsi-ld:entityType",
+                    "odrl:operator": {
+                        "@id": "odrl:eq"
+                    },
+                    "odrl:rightOperand": "AirQualityObserved"
+                }
+            ]
+        },
+        "odrl:constraint": [
+            {
+                "odrl:leftOperand": "odrl:hourOfDay",
+                "odrl:operator": "odrl:gteq",
+                "odrl:rightOperand": {
+                    "@value": 8,
+                    "@type": "xsd:integer"
+                }
+            },
+            {
+                "odrl:leftOperand": "odrl:hourOfDay",
+                "odrl:operator": "odrl:lteq",
+                "odrl:rightOperand": {
+                    "@value": 20,
+                    "@type": "xsd:integer"
+                }
+            },
+            {
+                "odrl:leftOperand": "odrl:dateTime",
+                "odrl:operator": "odrl:lteq",
+                "odrl:rightOperand": {
+                    "@value": "2026-06-10",
+                    "@type": "xsd:date"
+                }
+            }
+        ],
+        "odrl:assignee": {
+            "@type": "odrl:PartyCollection",
+            "odrl:source": "urn:user",
+            "odrl:refinement": {
+                "@type": "odrl:Constraint",
+                "odrl:leftOperand": {
+                    "@id": "vc:type"
+                },
+                "odrl:operator": {
+                    "@id": "odrl:hasPart"
+                },
+                "odrl:rightOperand": {
+                    "@value": "UserCredential",
+                    "@type": "xsd:string"
+                }
+            }
+        },
+        "odrl:action": {
+            "@id": "odrl:use"
+        }
+    }
+}

@@ -1,0 +1,25 @@
+# Use an official Python runtime as a parent image
+FROM python:3.13-slim
+
+# Set the working directory in the container
+WORKDIR /app
+
+# Copy the Python script and resources
+COPY src/main/app.py /app/
+COPY src/main/init.py /app/
+COPY src/main/metrics.py /app/
+COPY src/resources /app/resources/
+
+# Install shell script dependencies
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    curl jq\
+    && rm -rf /var/lib/apt/lists/*
+
+# Install any needed packages specified in requirements.txt
+COPY requirements.txt /app/
+RUN pip install --no-cache-dir -r requirements.txt
+RUN opentelemetry-bootstrap --action=install
+
+EXPOSE 8000
+
+CMD ["sh", "-c", "opentelemetry-instrument --traces_exporter otlp --metrics_exporter otlp --logs_exporter otlp --service_name spvs-profiler python3 app.py"]

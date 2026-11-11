@@ -1,0 +1,9 @@
+requests==2.32.5
+Flask==2.3.3
+paho-mqtt==1.6.1
+prometheus-client==0.22.1
+prometheus-summary==0.1.6
+opentelemetry-distro==0.61b0
+opentelemetry-exporter-otlp==1.40.0
+opentelemetry-instrumentation-logging==0.61b0
+opentelemetry-instrumentation-flask==0.61b0
